@@ -10,13 +10,9 @@ public class Practica1 {
     public static void main(String[] args) {
 
         Bodega oBodega = crearDatosPrueba();
-        Articulo jabon = oBodega.buscarArticulo(001);
+       
         Scanner teclado = new Scanner(System.in);
 
-        if (jabon == null) {
-            System.out.println("Artículo inexistente");
-            return;
-        }
 
         int opcion = 0;
         char continuar = ' ';
@@ -32,37 +28,67 @@ public class Practica1 {
             switch (opcion) {
 
                 case 1:
-                    int cont = 0;
                     
-                    for (Articulo articulo : oBodega.getArticulos()) {
-                        
-                        if (cont == 0) {
-                            System.out.println("Codigo:           " + "Nombre del Artículo:              " + "Marca:          " + "Precio:          " + "Cantidad     "+"\n");
-                            cont++;
-                        } 
-                            System.out.println(" "+articulo.getCodigo()+"                 " + articulo.getDescripcion() +"                            "  + articulo.getMarca()+"          " + articulo.getPrecio()+"              " + articulo.getCantidad());               
-                    }
+                    oBodega.MostrarArticulos();
 
                     break;
                 case 2:
-                    
-         
+
+                    System.out.println("1.Comprar artículo ya existente");
+                    System.out.println("2.Comprar nuevo artículo");
+                    char temp = teclado.next().charAt(0);
+
+                    if (temp == '1') {
+
+                        System.out.println("Ingresa el código del artículo");
+                        oBodega.AgregarCantidad(teclado.nextInt());
+
+                    }
+                    if (temp == '2') {
+
+                        System.out.println("Ingresa un código");
+                        int codigo = teclado.nextInt();
+                        System.out.println("Ingresa un nombre o descripción");
+                        String descripcion = teclado.next();
+                        System.out.println("Ingresa la marca");
+                        String marca = teclado.next();
+                        System.out.println("Ingresa el precio");
+                        double precio = teclado.nextDouble();
+                        System.out.println("Ingresa la cantidad");
+                        int cantidad = teclado.nextInt();
+
+                        Articulo nuevo = new Articulo(codigo, cantidad, marca, precio, descripcion);
+                        oBodega.nuevoArticulo(nuevo);
+
+                    }
 
                     break;
 
                 case 3:
+                    
+                    System.out.println("Ingresa el código del artículo");
+                    int codigo=teclado.nextInt();
+                    oBodega.VenderArticulo(codigo);
+                    
+
+             
 
                     break;
 
+                case 4:
+                    System.exit(0);
+                    
+                default:
+                    System.out.println("Número equivocado, ingresa otro número de opción");
+
             }
             System.out.println("\n");
-            System.out.println("¿Desea continuar con otro ejercicio?");
+            System.out.println("¿Desea continuar con otra opción?");
             continuar = teclado.next().charAt(0);
+            System.out.println("\n");
         } while ((continuar == 's') || (continuar == 'S'));
 
-        System.out.println("Artículo encontrado");
-
-        jabon.Venta(3);
+  
 
     }
 
@@ -82,7 +108,7 @@ public class Practica1 {
         Articulo Arroz = new Articulo(004, 3, "Elefan", 2500, "Arroz");
         oBodega.nuevoArticulo(Arroz);
 
-        Articulo Frijoles = new Articulo(005, 0, "Patito", 2000, "Zepol");
+        Articulo Frijoles = new Articulo(005, 2, "Patito", 2000, "Zepol");
         oBodega.nuevoArticulo(Frijoles);
 
         return oBodega;
